@@ -7,13 +7,7 @@ root = tkinter.Tk()
 root.withdraw()
 
 temp = None
-default_icon = Image.open('icon.png')
 # Functions
-def get_image():
-    print("If you don't see the window, try looking in your task view")
-    file = filedialog.askopenfilename(title="Select Icon", filetypes=[("PNG", "*.png"),("JPG", "*.jpg")], initialdir="icons")
-    if os.path.exists(file):
-        return Image.open(file)
 def save_template():
     print("If you don't see the window, try looking in your task view")
     types = [("Discord Activity Factory Template","*.daft")]
@@ -23,15 +17,17 @@ def save_template():
 
 # Make template
 print("Please select the main icon for this activity")
-icon = get_image() or default_icon
+icon = input('icon > ')
 print("Please select the sub icon for this activity. You can skip this, click cancel!")
-mini_icon = get_image()
-print("Please the title for your activity")
-desc1 = input('> ')
+mini_icon = input('mini_icon > ')
+print("Please the description for your activity")
+desc1 = input('description > ')
+print("Please the default status for your activity")
+status = input('status > ')
 
 typeactv = 'playing'
 # Make...
-temp = template(icon, mini_icon, desc1, typeactv)
+temp = template(icon, mini_icon, desc1, status, typeactv)
 
 # Save template
 save_template()

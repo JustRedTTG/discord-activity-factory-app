@@ -1,4 +1,4 @@
-import tkinter, os, time, datetime, oauth, auth
+import tkinter, os, time, oauth, auth, socket, json, pypresence, datetime
 from object import *
 from tkinter import filedialog
 
@@ -32,10 +32,10 @@ except:
 
 def save_token():
     print("""
-# FISRT TIME SETUP #
+# SETUP #
 To start the activity change on your account, 
 please go to http:127.0.0.1:2000 and login
-# Note: Your token will be encrypted and saved ease of access #
+# Note: Your token will be encrypted and saved for ease of access #
 # You can delete the token file at any time to force this setup again #
 """)
     auth.run()
@@ -44,7 +44,12 @@ please go to http:127.0.0.1:2000 and login
     TOKEN_enc.reverse()
     save('token', TOKEN_enc)
     return TOKEN_enc
-
+def send_ws(ws, payload):
+    ws.send(json.dumps(payload))
+def receive_ws(ws):
+    r = ws.recv()
+    if r:
+        return json.loads(r)
 # Get user token
 if os.path.exists('token'):
     try:
@@ -61,4 +66,35 @@ TOKEN = ''
 for item in TOKEN_enc:
     TOKEN += item
 
-print(TOKEN)
+# Get discord client port
+DISCORD_PORT = 0
+for port in range(6463, 6473):
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    result = sock.connect_ex(('127.0.0.1', port))
+    if result == 0:
+        DISCORD_PORT = port
+        sock.close()
+        break
+    sock.close()
+print(f"Found discord on: localhost:{DISCORD_PORT}")
+
+# Autherize to discord
+
+p = pypresence.Presence(oauth.client_id)
+p.connect()
+args = {
+    'details':data.desc1,
+    'large_image':data.img,
+    'small_image':data.icon,
+    'state':data.desc2,
+    'start':time.time()
+}
+while True:
+    p.update(
+        details=args['details'],
+        large_image=args['large_image'],
+        small_image=args['small_image'],
+        state=args['state'],
+        start=args['start']
+    )
+    time.sleep(5)

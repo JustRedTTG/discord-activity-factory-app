@@ -22,7 +22,7 @@ app = bottle.Bottle()
 def run():
     webbrowser.open(f'http://{oauth.ip}:{oauth.redirect_port}')
     try:
-        app.run(server=server)
+        app.run(server=server,quiet=True)
     except:
         return
 
@@ -32,7 +32,10 @@ def index():
 @app.get(oauth.redirect_close)
 def done():
     threading.Thread(daemon=True, target=server.stop).start()
-    return "Auth Complete!"
+    return """<html><body>
+<h1>Auth Complete!</h1>
+<h3>You can close this page now!</h3>
+</body></html>"""
 TOKEN = ''
 @app.get(oauth.redirect_complete)
 def auth():
