@@ -1,4 +1,4 @@
-import discord, tkinter, os, time, datetime
+import tkinter, os, time, datetime, oauth, auth
 from object import *
 from tkinter import filedialog
 
@@ -29,33 +29,17 @@ except:
     print('Invalid or corrupt file. Abort')
     time.sleep(ABORT_EXIT_TIME)
     exit()
-guild_subscription_options = discord.GuildSubscriptionOptions.off()
-Client = discord.Client(guild_subscription_options=guild_subscription_options)
-
-@Client.event
-async def on_ready():
-    print("Setting activity...")
-    if data.type == 'playing':
-        actv_type = discord.ActivityType.playing
-    actv = discord.Activity(
-        name=data.desc1,
-        type=actv_type,
-        #state='STATE',
-        #details='DETAILS',
-        large_image_url='https://cdn.discordapp.com/attachments/853191098285424652/961746816838279168/favicon.png?size=4096'
-    )
-    await Client.change_presence(activity=actv)
-
 
 def save_token():
     print("""
 # FISRT TIME SETUP #
 To start the activity change on your account, 
-please paste token below
+please go to http:127.0.0.1:2000 and login
 # Note: Your token will be encrypted and saved ease of access #
 # You can delete the token file at any time to force this setup again #
 """)
-    TOKEN = input("TOKEN = ")
+    auth.run()
+    TOKEN = auth.TOKEN
     TOKEN_enc = list(TOKEN)
     TOKEN_enc.reverse()
     save('token', TOKEN_enc)
@@ -77,4 +61,4 @@ TOKEN = ''
 for item in TOKEN_enc:
     TOKEN += item
 
-Client.run(TOKEN)
+print(TOKEN)
