@@ -19,7 +19,7 @@ if os.path.exists(Idir) and os.path.isdir(Idir):
 	pass
 else:
 	os.makedirs(Idir)
-file = filedialog.askopenfilename(filetypes=types, defaultextension=types, initialdir="collection")
+file = filedialog.askopenfilename(filetypes=types, defaultextension=types, initialdir=Idir)
 dafs = False
 
 # Double check template file
