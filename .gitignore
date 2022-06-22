@@ -152,3 +152,4 @@ cython_debug/
 .idea/
 discord activity/token
 discord activity/collection/*
+discord activity/sessions/*
