@@ -17,6 +17,7 @@ def save_template(temp):
     else:
         types = [("Discord Activity Factory Template","*.daft")]
         Idir = "collection"
+        dafs = False
     if os.path.exists(Idir) and os.path.isdir(Idir):
         pass
     else:

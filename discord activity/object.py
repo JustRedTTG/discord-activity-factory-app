@@ -1,4 +1,4 @@
-from pgerom.save import save, load
+from hexicapi.save import save, load
 from PIL import Image
 
 defaultName = """Discord Activity Factory"""
